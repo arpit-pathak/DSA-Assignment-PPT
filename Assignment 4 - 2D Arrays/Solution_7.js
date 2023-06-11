@@ -9,3 +9,24 @@
 // **Output:** 4
 
 // **Explanation:** The maximum integer in M is 2, and there are four of it in M. So return 4.
+
+function maxCount(m, n, ops) {
+  let minRow = m;
+  let minCol = n;
+
+  for (let i = 0; i < ops.length; i++) {
+    minRow = Math.min(minRow, ops[i][0]);
+    minCol = Math.min(minCol, ops[i][1]);
+  }
+
+  return minRow * minCol;
+}
+
+const m = 3;
+const n = 3;
+const ops = [
+  [2, 2],
+  [3, 3],
+];
+const result = maxCount(m, n, ops);
+console.log(result);
