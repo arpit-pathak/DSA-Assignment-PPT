@@ -11,3 +11,32 @@
 // **Explanation:** After squaring, the array becomes [16,1,0,9,100].
 
 // After sorting, it becomes [0,1,9,16,100].
+
+function sortedSquares(nums) {
+  const result = [];
+
+  let left = 0;
+  let right = nums.length - 1;
+  let idx = nums.length - 1;
+
+  while (left <= right) {
+    const leftSquare = nums[left] * nums[left];
+    const rightSquare = nums[right] * nums[right];
+
+    if (leftSquare > rightSquare) {
+      result[idx] = leftSquare;
+      left++;
+    } else {
+      result[idx] = rightSquare;
+      right--;
+    }
+
+    idx--;
+  }
+
+  return result;
+}
+
+const nums = [-4, -1, 0, 3, 10];
+const result = sortedSquares(nums);
+console.log(result);
