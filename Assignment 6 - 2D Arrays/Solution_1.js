@@ -14,3 +14,28 @@
 // **Output:**
 
 // [0,4,1,3,2]
+
+// ============== solution ============== //
+
+function findPermutation(s) {
+  const n = s.length;
+  const perm = new Array(n + 1);
+  let smallest = 0;
+  let largest = n;
+
+  for (let i = 0; i < n; i++) {
+    if (s[i] === "I") {
+      perm[i] = smallest++;
+    } else {
+      perm[i] = largest--;
+    }
+  }
+
+  perm[n] = smallest; // or largest, they will be equal at this point
+
+  return perm;
+}
+
+const s = "IDID";
+const perm = findPermutation(s);
+console.log(perm);

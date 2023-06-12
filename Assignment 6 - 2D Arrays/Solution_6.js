@@ -14,3 +14,32 @@
 // - Twice the value of 4 is 4 * 2 = 8.
 
 // Other original arrays could be [4,3,1] or [3,1,4].
+
+// ============== solution ============== //
+
+function findOriginalArray(changed) {
+  if (changed.length % 2 !== 0) {
+    return []; // If the length of the changed array is odd, it can't be a doubled array
+  }
+
+  const original = [];
+  const values = new Set(changed); // Store unique values of changed array in a set
+
+  for (const num of changed) {
+    if (num % 2 === 0) {
+      const half = num / 2;
+      if (values.has(half)) {
+        original.push(half);
+        values.delete(half);
+      } else {
+        return []; // If the corresponding half value doesn't exist, it's not a doubled array
+      }
+    }
+  }
+
+  return original;
+}
+
+const changed = [1, 3, 4, 2, 6, 8];
+const result = findOriginalArray(changed);
+console.log(result);
