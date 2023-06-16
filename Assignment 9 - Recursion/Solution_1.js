@@ -14,3 +14,26 @@
 // **Example 3:**
 // Input: n = 3
 // Output: false
+
+// ========== solution ========== //
+
+function isPowerOfTwo(n) {
+  if (n <= 0) {
+    return false;
+  }
+
+  if (n === 1) {
+    return true;
+  }
+
+  if (n % 2 !== 0) {
+    return false;
+  }
+
+  return isPowerOfTwo(n / 2);
+}
+
+// Testing the function
+console.log(isPowerOfTwo(1)); // true
+console.log(isPowerOfTwo(16)); // true
+console.log(isPowerOfTwo(3)); // false
