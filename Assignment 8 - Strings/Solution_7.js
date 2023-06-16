@@ -9,3 +9,38 @@
 
 // **Input:** s = "3[a]2[bc]"
 // **Output:** "aaabcbc"
+
+function decodeString(s) {
+  const stack = [];
+  let currentNumber = 0;
+  let currentString = "";
+
+  for (let i = 0; i < s.length; i++) {
+    const char = s[i];
+
+    if (char === "[") {
+      stack.push(currentString);
+      stack.push(currentNumber);
+      currentString = "";
+      currentNumber = 0;
+    } else if (char === "]") {
+      const number = stack.pop();
+      const previousString = stack.pop();
+      currentString = previousString + currentString.repeat(number);
+    } else if (isDigit(char)) {
+      currentNumber = currentNumber * 10 + parseInt(char);
+    } else {
+      currentString += char;
+    }
+  }
+
+  return currentString;
+}
+
+function isDigit(char) {
+  return /[0-9]/.test(char);
+}
+
+const s = "3[a]2[bc]";
+const decodedString = decodeString(s);
+console.log(decodedString); // "aaabcbc"

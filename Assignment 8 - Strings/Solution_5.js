@@ -17,3 +17,35 @@
 // **Output:** Return 6, and the first 6 characters of the input array should be: ["a","2","b","2","c","3"]
 // **Explanation:**
 // The groups are "aa", "bb", and "ccc". This compresses to "a2b2c3".
+
+function compress(chars) {
+  let writePtr = 0; // Pointer to write compressed characters
+  let count = 1; // Count of consecutive repeating characters
+
+  for (let readPtr = 1; readPtr <= chars.length; readPtr++) {
+    // Check if current character is the same as the previous character
+    if (readPtr < chars.length && chars[readPtr] === chars[readPtr - 1]) {
+      count++;
+    } else {
+      chars[writePtr] = chars[readPtr - 1]; // Write the character
+
+      if (count > 1) {
+        // Write the count as separate characters
+        const countStr = count.toString();
+        for (let i = 0; i < countStr.length; i++) {
+          chars[++writePtr] = countStr[i];
+        }
+      }
+
+      writePtr++;
+      count = 1;
+    }
+  }
+
+  return writePtr;
+}
+
+const chars = ["a", "a", "b", "b", "c", "c", "c"];
+const compressedLength = compress(chars);
+console.log("Compressed Array:", chars.slice(0, compressedLength)); // ["a", "2", "b", "2", "c", "3"]
+console.log("New Length:", compressedLength); // 6
