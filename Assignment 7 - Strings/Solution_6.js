@@ -9,3 +9,20 @@
 // **Input:** s = "abcde", goal = "cdeab"
 // **Output:**
 // true
+
+// =================== solution =================== //
+
+function canShift(s, goal) {
+  if (s.length !== goal.length) {
+    return false;
+  }
+
+  const concatenated = s + s;
+
+  return concatenated.includes(goal);
+}
+
+const s = "abcde";
+const goal = "cdeab";
+const result = canShift(s, goal);
+console.log(result);

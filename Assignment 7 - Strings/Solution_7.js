@@ -10,3 +10,31 @@
 
 // **Explanation:**
 // Both s and t become "ac".
+
+// =================== solution =================== //
+
+function processString(str) {
+  const result = [];
+
+  for (let char of str) {
+    if (char === "#") {
+      result.pop(); // Remove the last character
+    } else {
+      result.push(char); // Add the character to the result
+    }
+  }
+
+  return result.join(""); // Convert the result array back to a string
+}
+
+function backspaceCompare(s, t) {
+  const processedS = processString(s);
+  const processedT = processString(t);
+
+  return processedS === processedT;
+}
+
+const s = "ab#c";
+const t = "ad#c";
+const result = backspaceCompare(s, t);
+console.log(result);
