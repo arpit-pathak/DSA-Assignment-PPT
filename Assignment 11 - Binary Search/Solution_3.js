@@ -19,3 +19,27 @@
 // Input: nums = [9,6,4,2,3,5,7,0,1]
 // Output: 8
 // Explanation: n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.
+
+function missingNumber(nums) {
+  let left = 0;
+  let right = nums.length;
+
+  while (left < right) {
+    const mid = Math.floor((left + right) / 2);
+
+    if (nums[mid] > mid) {
+      // The missing number is in the left half
+      right = mid;
+    } else {
+      // The missing number is in the right half
+      left = mid + 1;
+    }
+  }
+
+  return left;
+}
+
+// Example usage:
+const nums = [9, 6, 4, 2, 3, 5, 7, 0, 1];
+const missingNum = missingNumber(nums);
+console.log(missingNum);
