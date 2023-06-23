@@ -20,3 +20,51 @@
 
 // Input : arr[] = {5, 1, 9, 2, 5, 1, 7}
 // Output : 1
+
+function findMaxAbsDifference(arr) {
+  const n = arr.length;
+  const LS = new Array(n); // Array to store the nearest left smaller elements
+  const RS = new Array(n); // Array to store the nearest right smaller elements
+  const stack = [];
+
+  // Find the nearest left smaller element for each element
+  for (let i = 0; i < n; i++) {
+    while (stack.length > 0 && stack[stack.length - 1] >= arr[i]) {
+      stack.pop();
+    }
+    LS[i] = stack.length === 0 ? 0 : stack[stack.length - 1];
+    stack.push(arr[i]);
+  }
+
+  // Clear the stack for finding the nearest right smaller element
+  stack.length = 0;
+
+  // Find the nearest right smaller element for each element
+  for (let i = n - 1; i >= 0; i--) {
+    while (stack.length > 0 && stack[stack.length - 1] >= arr[i]) {
+      stack.pop();
+    }
+    RS[i] = stack.length === 0 ? 0 : stack[stack.length - 1];
+    stack.push(arr[i]);
+  }
+
+  let maxAbsDiff = 0;
+
+  // Calculate the maximum absolute difference between LS[i] and RS[i]
+  for (let i = 0; i < n; i++) {
+    const absDiff = Math.abs(LS[i] - RS[i]);
+    maxAbsDiff = Math.max(maxAbsDiff, absDiff);
+  }
+
+  return maxAbsDiff;
+}
+
+// Example usage:
+const arr1 = [2, 1, 8];
+console.log(findMaxAbsDifference(arr1)); // Output: 1
+
+const arr2 = [2, 4, 8, 7, 7, 9, 3];
+console.log(findMaxAbsDifference(arr2)); // Output: 4
+
+const arr3 = [5, 1, 9, 2, 5, 1, 7];
+console.log(findMaxAbsDifference(arr3)); // Output: 1

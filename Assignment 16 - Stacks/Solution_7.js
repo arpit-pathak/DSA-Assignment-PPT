@@ -23,3 +23,26 @@
 // *each other. So, the final sequence doesn’t contain any*
 
 // *word.*
+
+function countWordsLeft(sequence) {
+  const stack = [];
+
+  for (let i = 0; i < sequence.length; i++) {
+    const word = sequence[i];
+
+    if (stack.length === 0 || stack[stack.length - 1] !== word) {
+      stack.push(word);
+    } else {
+      stack.pop();
+    }
+  }
+
+  return stack.length;
+}
+
+// Example usage:
+const sequence1 = ["ab", "aa", "aa", "bcd", "ab"];
+console.log(countWordsLeft(sequence1)); // Output: 3
+
+const sequence2 = ["tom", "jerry", "jerry", "tom"];
+console.log(countWordsLeft(sequence2)); // Output: 0

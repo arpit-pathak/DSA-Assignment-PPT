@@ -33,3 +33,45 @@
 // Pop 3, 4 from given Queue and push to second Queue.
 
 // Now, from using any of above operation, we cannot push 5 into the second Queue because it is below the 6 in the stack.
+
+function checkIncreasingOrder(queue) {
+  const stack = [];
+  const secondQueue = [];
+  let expected = 1;
+
+  while (queue.length > 0) {
+    if (queue[0] === expected) {
+      queue.shift();
+      expected++;
+    } else if (stack.length > 0 && stack[stack.length - 1] === expected) {
+      secondQueue.push(stack.pop());
+      expected++;
+    } else {
+      stack.push(queue.shift());
+    }
+  }
+
+  while (stack.length > 0) {
+    secondQueue.push(stack.pop());
+  }
+
+  // Check if the second queue is in increasing order
+  for (let i = 1; i < secondQueue.length; i++) {
+    if (secondQueue[i] < secondQueue[i - 1]) {
+      return "No";
+    }
+  }
+
+  if (queue.length === 0 && stack.length === 0) {
+    return "Yes";
+  } else {
+    return "No";
+  }
+}
+
+// Example usage:
+const queue1 = [5, 1, 2, 3, 4];
+console.log(checkIncreasingOrder(queue1)); // Yes
+
+const queue2 = [5, 1, 2, 6, 3, 4];
+console.log(checkIncreasingOrder(queue2)); // No

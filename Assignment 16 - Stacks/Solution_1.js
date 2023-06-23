@@ -34,3 +34,45 @@
 
 //    Input : a[] = [1, 1, 1, 2, 2, 2, 2, 11, 3, 3]
 // Output : [2, 2, 2, -1, -1, -1, -1, 3, -1, -1]
+
+function findNGF(arr) {
+  const frequencyMap = new Map();
+  const stack = [];
+  const result = [];
+
+  // Count the frequency of each element in the array
+  for (let i = 0; i < arr.length; i++) {
+    const num = arr[i];
+    frequencyMap.set(num, (frequencyMap.get(num) || 0) + 1);
+  }
+
+  // Iterate through the array from right to left
+  for (let i = arr.length - 1; i >= 0; i--) {
+    const num = arr[i];
+
+    while (
+      stack.length > 0 &&
+      frequencyMap.get(stack[stack.length - 1]) <= frequencyMap.get(num)
+    ) {
+      // Pop elements from the stack until we find a greater frequency
+      stack.pop();
+    }
+
+    // Update the result array with the next greater frequency
+    if (stack.length > 0) {
+      result.unshift(stack[stack.length - 1]);
+    } else {
+      result.unshift(-1);
+    }
+
+    // Push the current element onto the stack
+    stack.push(num);
+  }
+
+  return result;
+}
+
+// Example usage:
+const arr = [1, 1, 2, 3, 4, 2, 1];
+const output = findNGF(arr);
+console.log(output); // [-1, -1, 1, 2, 2, 1, -1]
