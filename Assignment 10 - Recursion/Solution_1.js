@@ -17,3 +17,21 @@
 // Input: n = -1
 // Output: false
 // Explanation: There is no x where 3x = (-1).
+
+// =============== Solution =============== //
+function isPowerOfThree(n) {
+  if (n === 1) {
+    return true;
+  }
+
+  if (n <= 0 || n % 3 !== 0) {
+    return false;
+  }
+
+  return isPowerOfThree(n / 3);
+}
+
+// Example usage:
+console.log(isPowerOfThree(27)); // Output: true
+console.log(isPowerOfThree(0)); // Output: false
+console.log(isPowerOfThree(-1)); // Output: false

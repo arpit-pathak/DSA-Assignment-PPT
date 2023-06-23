@@ -22,3 +22,27 @@
 
 // Input: n = 1
 // Output: 1
+
+// =============== Solution =============== //
+
+function lastRemaining(n) {
+  return findLastRemaining(1, n);
+}
+
+function findLastRemaining(start, end) {
+  if (start === end) {
+    return start;
+  }
+
+  const length = end - start + 1;
+
+  if (length % 2 === 1) {
+    return findLastRemaining(start + 2, end);
+  } else {
+    return findLastRemaining(start + 2, end - 1);
+  }
+}
+
+// Example usage:
+console.log(lastRemaining(9)); // Output: 6
+console.log(lastRemaining(1)); // Output: 1

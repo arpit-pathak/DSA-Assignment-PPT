@@ -31,3 +31,32 @@
 // Explanation:For N=3 , steps will be
 // as follows in the example and total
 // 7 steps will be taken.
+
+// =============== Solution =============== //
+
+function towerOfHanoi(n, sourceRod, destinationRod, auxiliaryRod) {
+  if (n === 1) {
+    console.log(`Move disk 1 from rod ${sourceRod} to rod ${destinationRod}`);
+    return 1;
+  }
+
+  let moves = 0;
+
+  moves += towerOfHanoi(n - 1, sourceRod, auxiliaryRod, destinationRod);
+
+  console.log(`Move disk ${n} from rod ${sourceRod} to rod ${destinationRod}`);
+  moves++;
+
+  moves += towerOfHanoi(n - 1, auxiliaryRod, destinationRod, sourceRod);
+
+  return moves;
+}
+
+// Example usage:
+const n = 3;
+const sourceRod = 1;
+const destinationRod = 3;
+const auxiliaryRod = 2;
+
+const totalMoves = towerOfHanoi(n, sourceRod, destinationRod, auxiliaryRod);
+console.log(`Total moves: ${totalMoves}`);
