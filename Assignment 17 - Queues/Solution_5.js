@@ -32,3 +32,23 @@
 // Input: n = 6, k = 5
 // Output: 1
 // Explanation: The friends leave in this order: 5, 4, 6, 2, 3. The winner is friend 1.
+
+function findTheWinner(n, k) {
+  const queue = [];
+  for (let i = 1; i <= n; i++) {
+    queue.push(i);
+  }
+
+  while (queue.length > 1) {
+    for (let i = 0; i < k - 1; i++) {
+      queue.push(queue.shift());
+    }
+    queue.shift();
+  }
+
+  return queue[0];
+}
+
+// Example usage:
+console.log(findTheWinner(5, 2)); // Output: 3
+console.log(findTheWinner(6, 5)); // Output: 1

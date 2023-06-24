@@ -30,3 +30,33 @@
 
 // Input: students = [1,1,1,0,0,1], sandwiches = [1,0,0,0,1,1]
 // Output: 3
+
+function countStudents(students, sandwiches) {
+  const queue = [];
+  let count = 0;
+
+  for (const student of students) {
+    queue.push(student);
+  }
+
+  for (const sandwich of sandwiches) {
+    if (queue.length === 0) {
+      break;
+    }
+
+    if (queue[0] === sandwich) {
+      queue.shift();
+    } else {
+      queue.push(queue.shift());
+      count++;
+    }
+  }
+
+  return count;
+}
+
+// Example usage:
+const students = [1, 1, 0, 0];
+const sandwiches = [0, 1, 0, 1];
+const result = countStudents(students, sandwiches);
+console.log(result);

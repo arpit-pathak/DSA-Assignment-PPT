@@ -23,3 +23,39 @@
 // Input: nums = [-3,-2,-3]
 // Output: -2
 // Explanation: Subarray [-2] has maximum sum -2.
+
+function maxSubarraySumCircular(nums) {
+  let maxSum = -Infinity;
+  let currentMax = 0;
+  let totalSum = 0;
+
+  for (let i = 0; i < nums.length; i++) {
+    totalSum += nums[i];
+
+    currentMax = Math.max(nums[i], currentMax + nums[i]);
+    maxSum = Math.max(maxSum, currentMax);
+  }
+
+  if (maxSum > 0) {
+    return maxSum;
+  }
+
+  currentMax = 0;
+
+  for (let i = 0; i < nums.length; i++) {
+    nums[i] = -nums[i];
+    currentMax = Math.max(nums[i], currentMax + nums[i]);
+    maxSum = Math.max(maxSum, currentMax);
+  }
+
+  if (maxSum === 0) {
+    return Math.max(...nums);
+  }
+
+  return Math.max(maxSum, totalSum + maxSum);
+}
+
+// Example usage:
+const nums = [1, -2, 3, -2];
+const result = maxSubarraySumCircular(nums);
+console.log(result);

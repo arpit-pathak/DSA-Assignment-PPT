@@ -33,3 +33,29 @@
 // **Example 2:**
 // Input: deck = [1,1000]
 // Output: [1,1000]
+
+function deckRevealedIncreasing(deck) {
+  deck.sort((a, b) => a - b); // Sort the deck in ascending order
+
+  const queue = []; // Queue to store the indices of the cards
+  const result = new Array(deck.length).fill(0); // Array to store the final ordering of the deck
+
+  for (let i = 0; i < deck.length; i++) {
+    queue.push(i); // Enqueue the indices of the cards
+  }
+
+  for (const card of deck) {
+    const index = queue.shift(); // Dequeue the front index
+    result[index] = card; // Set the value in the result array
+    if (queue.length > 0) {
+      const nextIndex = queue.shift(); // Dequeue the front index again
+      queue.push(nextIndex); // Enqueue the index at the end of the queue
+    }
+  }
+
+  return result;
+}
+
+// Example usage:
+console.log(deckRevealedIncreasing([17, 13, 11, 2, 3, 5, 7])); // Output: [2, 13, 3, 11, 5, 17, 7]
+console.log(deckRevealedIncreasing([1, 1000])); // Output: [1, 1000]

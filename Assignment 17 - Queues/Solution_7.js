@@ -36,3 +36,89 @@
 // q.popMiddle();    // return 4 -> [2]
 // q.popBack();      // return 2 -> []
 // q.popFront();     // return -1 -> [] (The queue is empty)
+
+class FrontMiddleBackQueue {
+  constructor() {
+    this.frontHalf = [];
+    this.backHalf = [];
+    this.middle = null;
+  }
+
+  pushFront(val) {
+    if (this.middle !== null) {
+      this.frontHalf.push(this.middle);
+      this.middle = null;
+    }
+    this.frontHalf.push(val);
+  }
+
+  pushMiddle(val) {
+    if (this.middle !== null) {
+      this.frontHalf.push(this.middle);
+      this.middle = null;
+    }
+    if (this.frontHalf.length === this.backHalf.length) {
+      this.frontHalf.push(val);
+    } else {
+      this.backHalf.unshift(val);
+      this.middle = this.backHalf.shift();
+    }
+  }
+
+  pushBack(val) {
+    if (this.middle !== null) {
+      this.backHalf.unshift(this.middle);
+      this.middle = null;
+    }
+    this.backHalf.unshift(val);
+  }
+
+  popFront() {
+    if (this.frontHalf.length > 0) {
+      if (this.frontHalf.length === 1 && this.backHalf.length === 0) {
+        this.middle = null;
+      } else {
+        this.middle = this.backHalf.shift();
+      }
+      return this.frontHalf.shift();
+    }
+    return -1;
+  }
+
+  popMiddle() {
+    if (this.middle !== null) {
+      if (this.frontHalf.length === this.backHalf.length) {
+        this.middle = null;
+        return this.frontHalf.pop();
+      } else {
+        this.middle = null;
+        return this.backHalf.shift();
+      }
+    }
+    return -1;
+  }
+
+  popBack() {
+    if (this.backHalf.length > 0) {
+      if (this.backHalf.length === 1 && this.frontHalf.length === 0) {
+        this.middle = null;
+      } else {
+        this.middle = this.frontHalf.pop();
+      }
+      return this.backHalf.shift();
+    }
+    return -1;
+  }
+}
+
+// Example usage:
+const q = new FrontMiddleBackQueue();
+q.pushFront(1);
+q.pushBack(2);
+q.pushMiddle(3);
+q.pushMiddle(4);
+console.log(q.popFront()); // Output: 1
+console.log(q.popMiddle()); // Output: 3
+console.log(q.popMiddle()); // Output: 4
+console.log(q.popBack()); // Output: 2
+console.log(q.popFront()); // Output: -1 (The queue is empty)

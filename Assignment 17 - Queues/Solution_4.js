@@ -23,3 +23,24 @@
 // recentCounter.ping(100);   // requests = [1,100], range is [-2900,100], return 2
 // recentCounter.ping(3001);  // requests = [1,100,3001], range is [1,3001], return 3
 // recentCounter.ping(3002);  // requests = [1,100,3001,3002], range is [2,3002], return 3
+
+class RecentCounter {
+  constructor() {
+    this.queue = [];
+  }
+
+  ping(t) {
+    this.queue.push(t);
+    while (this.queue[0] < t - 3000) {
+      this.queue.shift();
+    }
+    return this.queue.length;
+  }
+}
+
+// Example usage:
+const recentCounter = new RecentCounter();
+console.log(recentCounter.ping(1)); // Output: 1
+console.log(recentCounter.ping(100)); // Output: 2
+console.log(recentCounter.ping(3001)); // Output: 3
+console.log(recentCounter.ping(3002)); // Output: 3
