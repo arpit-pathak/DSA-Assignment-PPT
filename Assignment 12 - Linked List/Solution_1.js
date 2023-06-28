@@ -13,3 +13,74 @@
 // Input:
 // LinkedList: 2->4->6->7->5->1
 // Output:2 4 6 5 1
+
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
+}
+
+class LinkedList {
+  constructor() {
+    this.head = null;
+  }
+
+  insert(data) {
+    const newNode = new Node(data);
+
+    if (this.head === null) {
+      this.head = newNode;
+    } else {
+      let current = this.head;
+      while (current.next !== null) {
+        current = current.next;
+      }
+      current.next = newNode;
+    }
+  }
+
+  deleteMiddle() {
+    if (this.head === null || this.head.next === null) {
+      return null;
+    }
+
+    let slow = this.head;
+    let fast = this.head;
+    let prev = null;
+
+    while (fast !== null && fast.next !== null) {
+      fast = fast.next.next;
+      prev = slow;
+      slow = slow.next;
+    }
+
+    prev.next = slow.next;
+    return this.head;
+  }
+
+  printList() {
+    let current = this.head;
+    while (current !== null) {
+      process.stdout.write(current.data + " ");
+      current = current.next;
+    }
+    process.stdout.write("\n");
+  }
+}
+
+// Example usage:
+const linkedList = new LinkedList();
+linkedList.insert(1);
+linkedList.insert(2);
+linkedList.insert(3);
+linkedList.insert(4);
+linkedList.insert(5);
+
+console.log("Original Linked List:");
+linkedList.printList();
+
+linkedList.deleteMiddle();
+
+console.log("Modified Linked List:");
+linkedList.printList();

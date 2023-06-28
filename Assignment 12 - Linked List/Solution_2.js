@@ -19,3 +19,55 @@
 // x = 0
 // Output:False
 // Explanation:For N = 4 ,x = 0 means then lastNode->next = NULL, then the Linked list does not contains any loop.
+
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
+}
+
+class LinkedList {
+  constructor() {
+    this.head = null;
+  }
+
+  insert(data) {
+    const newNode = new Node(data);
+
+    if (this.head === null) {
+      this.head = newNode;
+    } else {
+      let current = this.head;
+      while (current.next !== null) {
+        current = current.next;
+      }
+      current.next = newNode;
+    }
+  }
+
+  detectLoop() {
+    let slow = this.head;
+    let fast = this.head;
+
+    while (fast !== null && fast.next !== null) {
+      slow = slow.next;
+      fast = fast.next.next;
+
+      if (slow === fast) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+}
+
+// Example usage:
+const linkedList = new LinkedList();
+linkedList.insert(1);
+linkedList.insert(3);
+linkedList.insert(4);
+linkedList.head.next.next.next = linkedList.head.next;
+
+console.log("Does the linked list have a loop?", linkedList.detectLoop());
