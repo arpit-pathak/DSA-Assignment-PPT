@@ -21,3 +21,90 @@
 // Output:3 2 1 5 4
 // Explanation:
 // The first 3 elements are 1,2,3 are reversed first and then elements 4,5 are reversed.Hence, the resultant linked list is 3->2->1->5->4.
+
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
+}
+
+function reverseList(head) {
+  let prev = null;
+  let current = head;
+
+  while (current) {
+    const next = current.next;
+    current.next = prev;
+    prev = current;
+    current = next;
+  }
+
+  return prev;
+}
+
+function reverseKNodes(head, k) {
+  if (!head || !head.next || k <= 1) {
+    return head;
+  }
+
+  let current = head;
+  let previousTail = null;
+  let newHead = null;
+
+  while (current) {
+    let count = 1;
+    let start = current;
+    let end = current;
+
+    while (end && count < k) {
+      end = end.next;
+      count++;
+    }
+
+    if (!end) {
+      break;
+    }
+
+    const nextGroup = end.next;
+    end.next = null;
+
+    const reversedGroup = reverseList(start);
+
+    if (!newHead) {
+      newHead = reversedGroup;
+    }
+
+    if (previousTail) {
+      previousTail.next = reversedGroup;
+    }
+
+    previousTail = start;
+    current = nextGroup;
+  }
+
+  if (previousTail) {
+    previousTail.next = current;
+  }
+
+  return newHead || head;
+}
+
+// Example usage:
+const head = new Node(1);
+head.next = new Node(2);
+head.next.next = new Node(2);
+head.next.next.next = new Node(4);
+head.next.next.next.next = new Node(5);
+head.next.next.next.next.next = new Node(6);
+head.next.next.next.next.next.next = new Node(7);
+head.next.next.next.next.next.next.next = new Node(8);
+
+const k = 4;
+const newHead = reverseKNodes(head, k);
+
+let current = newHead;
+while (current) {
+  console.log(current.data);
+  current = current.next;
+}
