@@ -17,3 +17,46 @@
 
 // Input: head = [2,7,4,3,5]
 // Output: [7,0,5,5,0]
+
+class ListNode {
+  constructor(val, next = null) {
+    this.val = val;
+    this.next = next;
+  }
+}
+
+const nextLargerNodes = (head) => {
+  if (!head) {
+    return [];
+  }
+
+  const stack = [];
+  const result = [];
+  let index = 0;
+
+  while (head) {
+    result[index] = 0;
+
+    while (stack.length > 0 && head.val > stack[stack.length - 1].val) {
+      const node = stack.pop();
+      result[node.index] = head.val;
+    }
+
+    stack.push({ val: head.val, index });
+    head = head.next;
+    index++;
+  }
+
+  return result;
+};
+
+// Example usage:
+const head = new ListNode(2);
+head.next = new ListNode(7);
+head.next.next = new ListNode(4);
+head.next.next.next = new ListNode(3);
+head.next.next.next.next = new ListNode(5);
+
+const result = nextLargerNodes(head);
+
+console.log(result);

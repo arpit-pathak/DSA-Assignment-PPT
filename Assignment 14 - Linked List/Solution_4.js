@@ -40,3 +40,66 @@
 // Explanation:In the given testcase ,
 // applying the method as stated in the
 // above example, the output will be 1.
+
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+    this.random = null;
+  }
+}
+
+function cloneLinkedList(head) {
+  if (head === null) return null;
+
+  // Create a hash map to store the mapping between original nodes and new nodes
+  const hashMap = new Map();
+
+  let originalNode = head;
+  let clonedNode = null;
+  let clonedHead = null;
+
+  // Create a new node for each original node and store the mapping in the hash map
+  while (originalNode) {
+    clonedNode = new Node(originalNode.data);
+    hashMap.set(originalNode, clonedNode);
+
+    originalNode = originalNode.next;
+  }
+
+  // Set the next and random pointers for each new node
+  originalNode = head;
+  while (originalNode) {
+    clonedNode = hashMap.get(originalNode);
+    clonedNode.next = hashMap.get(originalNode.next);
+    clonedNode.random = hashMap.get(originalNode.random);
+
+    originalNode = originalNode.next;
+  }
+
+  // Return the head of the cloned linked list
+  return hashMap.get(head);
+}
+
+// Example usage:
+const head = new Node(1);
+head.next = new Node(2);
+head.next.next = new Node(3);
+head.next.next.next = new Node(4);
+
+head.random = head.next.next;
+head.next.random = head.next.next.next;
+head.next.next.random = head.next;
+
+const clonedHead = cloneLinkedList(head);
+
+// Print the cloned linked list
+let current = clonedHead;
+while (current) {
+  console.log(`Node: ${current.data}`);
+  console.log(`Next: ${current.next ? current.next.data : null}`);
+  console.log(`Random: ${current.random ? current.random.data : null}`);
+  console.log("---");
+
+  current = current.next;
+}

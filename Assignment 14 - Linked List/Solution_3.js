@@ -34,3 +34,66 @@
 // node in a single level.
 
 // (Note:| represents the bottom pointer.)
+
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+    this.bottom = null;
+  }
+}
+
+function mergeLists(list1, list2) {
+  if (list1 === null) return list2;
+  if (list2 === null) return list1;
+
+  let result;
+
+  if (list1.data < list2.data) {
+    result = list1;
+    result.bottom = mergeLists(list1.bottom, list2);
+  } else {
+    result = list2;
+    result.bottom = mergeLists(list1, list2.bottom);
+  }
+
+  return result;
+}
+
+function flattenLinkedList(head) {
+  if (head === null || head.next === null) return head;
+
+  // Recursively flatten the remaining list
+  head.next = flattenLinkedList(head.next);
+
+  // Merge the current list with the flattened list
+  head = mergeLists(head, head.next);
+
+  return head;
+}
+
+// Example usage:
+const head = new Node(5);
+head.next = new Node(10);
+head.next.next = new Node(19);
+head.next.next.next = new Node(28);
+
+head.bottom = new Node(7);
+head.bottom.bottom = new Node(8);
+head.bottom.bottom.bottom = new Node(30);
+
+head.next.bottom = new Node(20);
+
+head.next.next.bottom = new Node(22);
+
+head.next.next.next.bottom = new Node(35);
+head.next.next.next.bottom.bottom = new Node(40);
+head.next.next.next.bottom.bottom.bottom = new Node(45);
+
+const flattenedList = flattenLinkedList(head);
+
+let current = flattenedList;
+while (current) {
+  console.log(current.data);
+  current = current.bottom;
+}

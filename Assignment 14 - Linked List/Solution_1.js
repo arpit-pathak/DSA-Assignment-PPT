@@ -44,3 +44,61 @@
 // A loop is present.
 // If you remove it successfully,
 // the answer will be 1.
+
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
+}
+
+function detectAndRemoveLoop(head) {
+  if (head === null || head.next === null) {
+    return null;
+  }
+
+  let slow = head;
+  let fast = head;
+
+  // Detect the loop in the linked list
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+
+    if (slow === fast) {
+      break;
+    }
+  }
+
+  // If no loop exists, return the head of the list
+  if (slow !== fast) {
+    return head;
+  }
+
+  // Find the starting point of the loop
+  slow = head;
+  while (slow.next !== fast.next) {
+    slow = slow.next;
+    fast = fast.next;
+  }
+
+  // Remove the loop by setting the next pointer of the last node to null
+  fast.next = null;
+
+  return head;
+}
+
+// Example usage:
+const list = new Node(1);
+list.next = new Node(2);
+list.next.next = new Node(3);
+list.next.next.next = new Node(4);
+list.next.next.next.next = list.next; // Create a loop
+
+const newList = detectAndRemoveLoop(list);
+
+let current = newList;
+while (current) {
+  console.log(current.data);
+  current = current.next;
+}

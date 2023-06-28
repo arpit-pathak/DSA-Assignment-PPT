@@ -19,3 +19,50 @@
 
 // Input: head = [2,1,3,5,6,4,7]
 // Output: [2,3,6,7,1,5,4] */
+
+class ListNode {
+  constructor(val, next = null) {
+    this.val = val;
+    this.next = next;
+  }
+}
+
+function oddEvenList(head) {
+  if (head === null || head.next === null) {
+    return head;
+  }
+
+  // Separate odd-indexed and even-indexed nodes
+  let oddHead = head;
+  let evenHead = head.next;
+  let oddTail = oddHead;
+  let evenTail = evenHead;
+
+  while (evenTail !== null && evenTail.next !== null) {
+    oddTail.next = evenTail.next;
+    oddTail = oddTail.next;
+    evenTail.next = oddTail.next;
+    evenTail = evenTail.next;
+  }
+
+  // Merge the two lists
+  oddTail.next = evenHead;
+
+  return oddHead;
+}
+
+// Example usage:
+const head = new ListNode(1);
+head.next = new ListNode(2);
+head.next.next = new ListNode(3);
+head.next.next.next = new ListNode(4);
+head.next.next.next.next = new ListNode(5);
+
+const reorderedList = oddEvenList(head);
+
+// Print the reordered list
+let current = reorderedList;
+while (current !== null) {
+  console.log(current.val);
+  current = current.next;
+}
