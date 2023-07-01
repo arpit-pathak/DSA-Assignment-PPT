@@ -35,3 +35,72 @@
 // **Output-2:**
 
 // The distance between the two keys = 2
+
+// ========== solution ========== //
+
+class TreeNode {
+  constructor(value) {
+    this.val = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+const findDistance = (root, node1, node2) => {
+  if (root === null) {
+    return 0;
+  }
+
+  // If both nodes are smaller, search in the left subtree
+  if (root.val > node1 && root.val > node2) {
+    return findDistance(root.left, node1, node2);
+  }
+
+  // If both nodes are greater, search in the right subtree
+  if (root.val < node1 && root.val < node2) {
+    return findDistance(root.right, node1, node2);
+  }
+
+  // If the current node lies between node1 and node2
+  if (
+    (root.val >= node1 && root.val <= node2) ||
+    (root.val <= node1 && root.val >= node2)
+  ) {
+    return distance(root, node1) + distance(root, node2);
+  }
+
+  return 0;
+};
+
+const distance = (root, node) => {
+  if (root === null) {
+    return 0;
+  }
+
+  if (root.val === node) {
+    return 0;
+  }
+
+  if (root.val > node) {
+    return 1 + distance(root.left, node);
+  }
+
+  return 1 + distance(root.right, node);
+};
+
+// Create the binary search tree
+const root = new TreeNode(8);
+root.left = new TreeNode(3);
+root.right = new TreeNode(10);
+root.left.left = new TreeNode(1);
+root.left.right = new TreeNode(6);
+root.left.right.left = new TreeNode(4);
+root.left.right.right = new TreeNode(7);
+root.right.right = new TreeNode(14);
+root.right.right.left = new TreeNode(13);
+
+// Example usage:
+const node1 = 6;
+const node2 = 14;
+const result = findDistance(root, node1, node2);
+console.log("The distance between the two keys =", result); // Output: The distance between the two keys = 4
