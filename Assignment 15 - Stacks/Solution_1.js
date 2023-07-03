@@ -25,3 +25,36 @@
 // hence it is -1, for 0 it is 1 , for 1 it
 // is 3 and then for 3 there is no larger
 // element on right and hence -1.
+
+// =============== solution =============== //
+
+function findNextGreaterElements(arr) {
+  const stack = [];
+  const output = [];
+
+  for (let i = arr.length - 1; i >= 0; i--) {
+    // Pop elements from stack smaller than current element
+    while (stack.length > 0 && stack[stack.length - 1] <= arr[i]) {
+      stack.pop();
+    }
+
+    // Set the next greater element
+    if (stack.length === 0) {
+      output.unshift(-1); // No greater element found
+    } else {
+      output.unshift(stack[stack.length - 1]);
+    }
+
+    // Push current element to stack
+    stack.push(arr[i]);
+  }
+
+  return output;
+}
+
+// Example usage:
+const arr1 = [1, 3, 2, 4];
+console.log(findNextGreaterElements(arr1)); // Output: [3, 4, 4, -1]
+
+const arr2 = [6, 8, 0, 1, 3];
+console.log(findNextGreaterElements(arr2)); // Output: [8, -1, 1, 3, -1]

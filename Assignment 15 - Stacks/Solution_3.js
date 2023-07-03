@@ -27,3 +27,50 @@
 // pop()
 // push(3)
 // Output:2 -1
+
+// =============== solution =============== //
+
+class Stack {
+  constructor() {
+    this.q1 = [];
+    this.q2 = [];
+  }
+
+  // Method to add an element to the stack
+  push(element) {
+    this.q1.push(element);
+  }
+
+  // Method to remove and return the top element from the stack
+  pop() {
+    if (this.isEmpty()) {
+      return -1; // Stack is empty
+    }
+
+    while (this.q1.length > 1) {
+      this.q2.push(this.q1.shift());
+    }
+
+    const poppedElement = this.q1.shift();
+
+    // Swap the names of q1 and q2
+    const temp = this.q1;
+    this.q1 = this.q2;
+    this.q2 = temp;
+
+    return poppedElement;
+  }
+
+  // Method to check if the stack is empty
+  isEmpty() {
+    return this.q1.length === 0;
+  }
+}
+
+// Example usage:
+const myStack = new Stack();
+myStack.push(2);
+myStack.push(3);
+console.log(myStack.pop()); // Output: 3
+myStack.push(4);
+console.log(myStack.pop()); // Output: 4
