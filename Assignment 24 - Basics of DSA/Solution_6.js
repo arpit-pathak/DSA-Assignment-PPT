@@ -23,3 +23,49 @@
 // - `1 <= words[i].length <= 10`
 // - `words[i]` consists of lowercase English letters.
 // - `k` is in the range `[1, The number of **unique** words[i]]`
+
+// ========== Solution ========== //
+
+function topKFrequent(words, k) {
+  const frequencyMap = new Map();
+
+  // Count the frequency of each word
+  for (let word of words) {
+    frequencyMap.set(word, (frequencyMap.get(word) || 0) + 1);
+  }
+
+  // Sort the words based on their frequencies and lexicographical order
+  const sortedWords = Array.from(frequencyMap.keys()).sort((a, b) => {
+    const freqCompare = frequencyMap.get(b) - frequencyMap.get(a);
+    if (freqCompare === 0) {
+      return a.localeCompare(b);
+    }
+    return freqCompare;
+  });
+
+  // Return the k most frequent words
+  return sortedWords.slice(0, k);
+}
+
+// Example 1
+const words1 = ["i", "love", "leetcode", "i", "love", "coding"];
+const k1 = 2;
+const result1 = topKFrequent(words1, k1);
+console.log(result1);
+
+// Example 2
+const words2 = [
+  "the",
+  "day",
+  "is",
+  "sunny",
+  "the",
+  "the",
+  "the",
+  "sunny",
+  "is",
+  "is",
+];
+const k2 = 4;
+const result2 = topKFrequent(words2, k2);
+console.log(result2);
